@@ -1,0 +1,44 @@
+.uds-form{
+	position: relative;
+	/*margin-top: 50px;*/
+	padding : 10px;
+	width: 100%;
+}
+
+#uds-canvas{
+	display: none;
+}
+
+.uds-item{
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.uds-locate{
+	position: relative;
+	margin-right: 30px;
+}
+
+#uds-submit{
+	position: absolute;
+	right: 0px;
+	margin-right: 10px;
+}
+
+#loaderImage{
+	position: absolute;
+	top: 30px;
+	right: 30px;
+}
+
+.loaderImage-hidden{
+	display: none;
+}
+
+/* Testing purpose
+ 
+#testButton{
+	position: absolute;
+	top: 120px;
+	right: 30px;
+}*/
