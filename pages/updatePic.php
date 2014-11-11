@@ -2,6 +2,7 @@
 //var_dump($_GET);
 //var_dump($_POST);
 //var_dump($_FILES);
+clearstatcache();
 
 if(isset($_POST['image']) && !empty($_POST['image'])) {
 
