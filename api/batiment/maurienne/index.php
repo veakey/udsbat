@@ -7,7 +7,7 @@
 			"name": "Maurienne",
 			"lat": "45.6408976",
 			"lon": "5.8694857",
-			"pic": "dumb url"
+			"pic": "http://udsbat.valentinkim.org/img/x/1.png"
 		}
 	}';
 	

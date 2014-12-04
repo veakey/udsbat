@@ -7,7 +7,7 @@
 			"name": "4 Cantons",
 			"lat": "45.6405320",
 			"lon": "5.8709770",
-			"pic": "dumb url"
+			"pic": "http://udsbat.valentinkim.org/img/x/1.png"
 		}
 	}';
 	

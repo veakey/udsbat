@@ -7,7 +7,7 @@
 			"name": "Vanoise",
 			"lat": "45.6402732",
 			"lon": "5.8701079",
-			"pic": "dumb url"
+			"pic": "http://udsbat.valentinkim.org/img/x/1.png"
 		}
 	}';
 	

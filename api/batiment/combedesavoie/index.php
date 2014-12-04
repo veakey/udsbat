@@ -7,7 +7,7 @@
 			"name": "Combe de Savoie",
 			"lat": "45.6411808",
 			"lon": "5.8692764",
-			"pic": "dumb url"
+			"pic": "http://udsbat.valentinkim.org/img/x/1.png"
 		}
 	}';
 	
