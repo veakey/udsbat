@@ -13,6 +13,7 @@
 	<body class = "jumbotron">
 		<div id="loaderImage"></div>
 		<!--<input type = "button" id="testButton" onClick = "toggleAction();" value = "toggle"></input>-->
+		
 		<img 
 			class = "uds-item" 
 			src = "img/building.png" 
@@ -21,11 +22,18 @@
 			name = "picName"
 			id = "udsBatPic"
 		/>
+		
 		<canvas id = "uds-canvas" class = "uds-item"></canvas>
+		<form action="pages/bob.php" method="post" enctype="multipart/form-data">
+			Select image to upload:
+			<input type="file" name="fileToUpload" accept = "image/*" id="fileToUpload">
+			<input type="submit" value="Upload Image" name="submit">
+		</form>
 		<!--<form method = "post" action = "pages/updatePic.php" enctype = "multipart/form-data" id = "picUpdate">-->
+			
 			<!--<input type = "hidden" name = "MAX_FILE_SIZE" value = "2097152"/>-->
 			<!--<label for="file" style = "display: none;">Filename:</label>-->
-			<input type = "file" name = "file" id = "file" accept = "image/*"style = "display: none;"/>
+			<!--<input type = "file" name = "file" id = "file" accept = "image/*"style = "display: none;"/>-->
 			<!--<input type = "submit" value = "Envoyer" name = "submit" id = "send"/> -->
 		<!--</form>-->
 		<form method = "post" class = "uds-form" action = "pages/updateBuilding.php" id = "udsUpdate">

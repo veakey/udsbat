@@ -38,10 +38,12 @@ $(document).ready(function(){
 	//TODO biatch !
 	console.debug('should be ready by now !');
 	
-	
-	
-	
 	$('#file').on('change', function(){
+		$('#picUpdate').submit();
+	});
+	
+	
+	/*$('#file').on('change', function(){
 		console.debug($(this));
 		
 		var input = document.getElementById('file');
@@ -90,9 +92,9 @@ $(document).ready(function(){
 				url: 'pages/updatePic.php',//$(this).attr('action'),
 				type: 'POST',//$(this).attr('method'),
 				data: {image: dataUrl},//$(this).serialize(),
-				/*cache: false,
-				contentType: false,
-				processData: false,*/
+				//cache: false,
+				//contentType: false,
+				//processData: false,
 				success: function(response) {
 					console.log('on success');
 					console.debug(response);
@@ -119,7 +121,7 @@ $(document).ready(function(){
 		//$('#udsBatPic').attr('src','');
 		//$('#picUpdate').submit();
 		//toggleAction();
-	});
+	});*/
 	
 	/*$('#picUpdate').ajaxForm(function(data) {
 		//$('#result').html(data);

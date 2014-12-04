@@ -1,7 +1,7 @@
 <?php
 //var_dump($_GET);
-//var_dump($_POST);
-//var_dump($_FILES);
+var_dump($_POST);
+var_dump($_FILES);
 clearstatcache();
 
 if(isset($_POST['image']) && !empty($_POST['image'])) {
@@ -10,7 +10,10 @@ if(isset($_POST['image']) && !empty($_POST['image'])) {
 
     $parts = explode(',', $dataURL); 
     $data = base64_decode($parts[1]);
+	
+	
 
+	
 echo '************************';
 //echo $data;
 echo '************************';
