@@ -38,12 +38,12 @@ $(document).ready(function(){
 	//TODO biatch !
 	console.debug('should be ready by now !');
 	
-	$('#file').on('change', function(){
-		$('#picUpdate').submit();
-	});
-	
-	
 	/*$('#file').on('change', function(){
+		$('#picUpdate').submit();
+	});*/
+	
+	
+	$('#file').on('change', function(event){
 		console.debug($(this));
 		
 		var input = document.getElementById('file');
@@ -53,12 +53,14 @@ $(document).ready(function(){
 
 		var img = document.createElement("img");
 		var reader = new FileReader();  
-		reader.onload = function(e) {img.src = e.target.result
-			console.log(e.target.result);}
+		reader.onload = function(e) {
+			img.src = e.target.result
+			console.log(e.target.result);
+		};
 		
 		reader.readAsDataURL(file);
 
-		setTimeout(function(){
+		//setTimeout(function(){
 			var canvas = document.getElementById('uds-canvas');
 
 			var MAX_WIDTH = 600;
@@ -85,43 +87,17 @@ $(document).ready(function(){
 			var dataUrl = canvas.toDataURL("image/png");
 			
 			console.log(dataUrl);
+			
 			//ici faire le submit...
 			//toggleAction();
 			
-			$.ajax({
-				url: 'pages/updatePic.php',//$(this).attr('action'),
-				type: 'POST',//$(this).attr('method'),
-				data: {image: dataUrl},//$(this).serialize(),
-				//cache: false,
-				//contentType: false,
-				//processData: false,
-				success: function(response) {
-					console.log('on success');
-					console.debug(response);
-					//mettre à jour la photo
-					setTimeout(function(){
-						$('#udsBatPic').attr('src', 'img/tmp.png');
-						toggleAction();
-					}, 2000);
-					
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) { 
-					console.error('Status: ' + textStatus);
-					console.error('Error: ' + errorThrown);
-				}
-			});
-		}, 200);
-
-		
-		
-		//setTimeout(function(){
-		//	tranformPicIntoCanvas();
-		//});
-		
-		//$('#udsBatPic').attr('src','');
-		//$('#picUpdate').submit();
-		//toggleAction();
-	});*/
+			$('#picUpdateForm').append(canvas);
+			
+			$('#picUpdateSubmit').submit();
+			//$('#picUpdateForm').submit();
+			
+		return false;
+	});
 	
 	/*$('#picUpdate').ajaxForm(function(data) {
 		//$('#result').html(data);
