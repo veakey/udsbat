@@ -10,25 +10,39 @@
 	
 	
 	//récupération des bâtiments depuis bdd à l'aide du framework medoo
+	
 	$result = $database->select(
 		'batiment',[
 			'[>]campus' => ['cle_campus' => 'ca_id'],
 			'[>]geoloc' => ['cle_geoloc' => 'ge_id']
 		],[
-			'ba_id',
-			'ba_img_url(pic)',
-			'ba_nom(name)',
-			'ba_description(desc)',
-			'ge_lati(lat)',
-			'ge_longi(lon)'
+			'batiment.ba_id',
+			'batiment.ba_img_url(pic)',
+			'batiment.ba_nom(name)',
+			'batiment.ba_description(desc)',
+			'geoloc.ge_lati(lat)',
+			'geoloc.ge_longi(lon)'
 		],[
-			'ge_actif[=]' => 1,
-			'ca_nom_court[=]' => $campus,
-			'ba_nom_court[=]' => $building_short
+			'AND' => [
+				'ba_nom_court' => $building_short,
+				'ca_nom_court' => $campus,
+				'ge_actif' => 1
+			]
 		]
 	);
 	
-	print $database->last_query();
+	
+	//$result should be unique !
+	
+	
+	if (count($result) > 0){
+		$pic = $result[0]['pic'];
+		$result[0]['pic'] = 'http://'.$_SERVER['SERVER_NAME'].'/api/campus/'.$campus.'/'.$building_short.'/img/'. $pic;
+	}
+	
+	
+	
+	//print $database->last_query();
 	
 	$success = $result !== false;
 	

@@ -15,7 +15,7 @@
 			'batiment.ba_description(desc)',
 		],[
 			'AND' => [
-				'ca_nom_court' => 'annecy'
+				'ca_nom_court' => 'bourget'
 			]
 		]
 	);
