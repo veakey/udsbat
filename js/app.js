@@ -73,13 +73,28 @@ function transformImgToCanvas(img){
 	return formData;
 }
 
+function updateCampus(aTag){
+	$('#campus').val(aTag.innerHTML);
+	$('.final-form').change();
+}
+
+function initCampusChoice(){
+	$.getJSON('http://udsbat.valentinkim.org/api/campus',function(result){
+		console.debug(result);
+		for(i = 0, len = result.data.length; i < len; ++i){
+			var aux = result.data[i];
+			$('#campus-choice-parent').append(
+				'<li><a class = "campus-choice" onClick = "updateCampus(this);">' + aux + '</a></li>'
+			);
+		}
+	});
+	
+}
+
 
 $(document).ready(function(){
 	
-	$('.campus-choice').click(function(){
-		$('#campus').val($(this).text());
-		$('.final-form').change();
-	});
+	initCampusChoice();
 	
 	$('.final-form').on('change', function(){
 		var maxItems = $('.final-form').length;
@@ -124,7 +139,7 @@ $(document).ready(function(){
 			var formData = transformImgToCanvas(img);
 			
 			$.ajax({
-			   url: "pages/bob.php",
+			   url: "pages/updatePic.php",
 			   type: "POST",
 			   data: formData,
 			   processData: false,
@@ -164,12 +179,12 @@ $(document).ready(function(){
 				$('#udsUpdate-submit').prop('disabled', true);
 				//mettre à jour les couleurs des champs
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			error: function(xhr, status, error) { 
 				toggleAction();
-				console.error('Status: ' + textStatus);
-				console.error('Error: ' + errorThrown);
+				console.error(xhr);
+				console.error('Status: ' + status);
+				console.error('Error: ' + error);
 			}
 		});
-		
 	});
 });

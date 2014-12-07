@@ -20,7 +20,7 @@
 			id = "udsBatPic"
 		/>
 		
-		<form action="pages/bob.php" method="post" enctype="multipart/form-data" id="picUpdateForm">
+		<form action="pages/updatePic.php" method="post" enctype="multipart/form-data" id="picUpdateForm">
 			<input type="file" name="file" accept = "image/*" id="file" style="visibility:hidden;position:absolute;top:0;left:0"/>
 		</form>
 		
@@ -30,18 +30,15 @@
 				<div class="input-group">
 					<div class="input-group-btn">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Campus <span class="caret"></span></button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a class = "campus-choice" href="#">Annecy</a></li>
-							<li><a class = "campus-choice" href="#">Jacob Belcombette</a></li>
-							<li><a class = "campus-choice" href="#">Le Bourget du Lac</a></li>
+						<ul class="dropdown-menu" role="menu" id = "campus-choice-parent">
 						</ul>
 					</div>
 					<input name = "campus" id = "campus" type="text" class="form-control final-form" disabled>
 				</div>
 			</div>
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Nom du bâtiment" name = "buildingName" id="bName"/>
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Latitude" name = "lati" id = "lati" disabled/>
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Longitude" name = "longi" id = "longi" disabled/>
+			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Nom du bâtiment" name = "buildingName" id="bName" />
+			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Latitude" name = "lati" id = "lati" disabled />
+			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Longitude" name = "longi" id = "longi" disabled />
 			</div>
 			<!--<input class = "uds-textfield" type = "text" value = "" placeholder = "Altitude" name = "alti" id = "alti"/>
 Ne fonctionne pas pour le moment -->

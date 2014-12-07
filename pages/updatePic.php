@@ -1,53 +1,48 @@
 <?php
-//var_dump($_GET);
+var_dump($_GET);
 var_dump($_POST);
 var_dump($_FILES);
-clearstatcache();
-
-if(isset($_POST['image']) && !empty($_POST['image'])) {
-
-    $dataURL = $_POST['image'];  
-
-    $parts = explode(',', $dataURL); 
-    $data = base64_decode($parts[1]);
-	
-	
-
-	
-echo '************************';
-//echo $data;
-echo '************************';
-
-	$new_name = $_SERVER['DOCUMENT_ROOT'] . "/img/tmp.png";
-	//$result = move_uploaded_file ( $data , $new_name );
-  
-	//echo "reussi ? " . $result;
-
-    //if(is_writable('img/')) {    
-        $success = file_put_contents($new_name, $data);
-        echo ($success ? 'success' : 'unable to save file');
-    /*} else {
-        echo 'directory not writable';
-    }*/
-} else {
-    echo 'no image';
+$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/img/";
+$target_file = $target_dir . "tmp.png";//basename($_FILES["file"]["name"]);
+$uploadOk = 1;
+$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+$tmp_name = $_FILES["file"]["tmp_name"];
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+    $check = getimagesize($tmp_name);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
 }
-
-
-/*if ($_FILES["file"]["error"] > 0) {
-  echo "Error: " . $_FILES["file"]["error"] . "<br>";
-} else {
-  echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-  echo "Type: " . $_FILES["file"]["type"] . "<br>";
-  echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-  echo "Stored in: " . $_FILES["file"]["tmp_name"];
-  
-  $path = $_FILES["file"]["tmp_name"];
-  $new_name = $_SERVER['DOCUMENT_ROOT'] . "img/tmp.png";
-  //$new_name = "/home/valentinkim/www/udsbat.valentinkim.org/img/tmp.png";
-  
-  $result = move_uploaded_file ( $path , $new_name );
-  
-  echo "reussi ? " . $result;
+// Check if file already exists
+/*if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
 }*/
+// Check file size
+if ($_FILES["file"]["size"] > 300000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($tmp_name, $target_file)) {
+        echo "The file ". basename( $tmp_name). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
 ?>

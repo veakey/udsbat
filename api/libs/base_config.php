@@ -5,4 +5,5 @@
 	
 	include "medoo.php";
 	include "function.php";
+	//include "fire.php";
 ?>
