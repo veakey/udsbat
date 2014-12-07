@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>UDS BAT</title>
@@ -8,7 +8,14 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
 	</head>
 	<body class = "jumbotron">
+		<ul class="nav nav-pills m-title">
+			<li role="presentation" class="active"><a href="#">Ajout</a></li>
+			<li role="presentation"><a href="liste.html">Liste</a></li>
+			<li role="presentation"><a href="contact.html">Contact</a></li>
+		</ul>
+		
 		<div id="loaderImage"></div>
+		
 		<canvas id = "uds-canvas" class = "uds-item"></canvas>
 		
 		<img 
@@ -56,7 +63,6 @@ Ne fonctionne pas pour le moment -->
 				<img class = "btn btn-primary uds-locate" src = "img/locate.png" width = "56" onClick = "updateLocation();"/>
 				<input class = "btn btn-primary" type = "submit" value = "Je me rends utile !" id = "udsUpdate-submit" disabled/>
 			</div>
-			
 		</form>
 	</body>
 	<script src = "js/jquery-2.1.1.min.js"></script>
