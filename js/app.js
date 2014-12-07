@@ -204,6 +204,7 @@ $(document).ready(function(){
 				console.debug(response);
 				toggleAction();
 				$('#udsUpdate-submit').prop('disabled', true);
+				window.location.replace('liste.html');
 				//mettre à jour les couleurs des champs
 			},
 			error: function(xhr, status, error) { 
