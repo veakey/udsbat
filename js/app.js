@@ -33,8 +33,8 @@ function updateLocation() {
 function transformImgToCanvas(img){
 	var canvas = document.getElementById('uds-canvas');
 
-	var MAX_WIDTH = 600;
-	var MAX_HEIGHT = 450;
+	var MAX_WIDTH = 300;
+	var MAX_HEIGHT = 225;
 	var width = img.width;
 	var height = img.height;
 
@@ -73,9 +73,36 @@ function transformImgToCanvas(img){
 	return formData;
 }
 
-function updateCampus(aTag){
-	$('#campus').val(aTag.innerHTML);
+function updateBuilding(aTag){
+	value = aTag.innerHTML;
+	$('#buildingName').val(value);
 	$('.final-form').change();
+}
+
+function initBuildingChoice(bigName){
+	
+	var campus = bigName.toLowerCase().split(' ')[0];
+	$('#buildingName').val('');
+	
+	$('#building-choice-parent').empty();
+	$.getJSON('http://udsbat.valentinkim.org/api/campus/' + campus,function(result){
+		console.debug(result);
+		var mData = result.data;
+		for(i = 0, len = mData.length; i < len; ++i){
+			var aux = mData[i].name;
+			$('#building-choice-parent').append(
+				'<li><a class = "campus-choice" onClick = "updateBuilding(this);">' + aux + '</a></li>'
+			);
+		}
+	});
+}
+
+function updateCampus(aTag){
+	value = aTag.innerHTML;
+	$('#campus').val(value);
+	initBuildingChoice(value);
+	$('.final-form').change();
+	
 }
 
 function initCampusChoice(){

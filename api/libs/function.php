@@ -31,10 +31,11 @@
 	function uds_trim($b_name){
 		$first = strtolower($b_name);
 		$second = str_replace(
-			[' ', '-'],
-			['',''],
+			[' ','-','à','â','é','è','ê'],
+			['','','a','a','e','e','e'],
 			$first
 		);
+		//à en rajouter si on en croise d'autre...
 		return $second;
 	}
 	

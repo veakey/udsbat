@@ -33,10 +33,20 @@
 						<ul class="dropdown-menu" role="menu" id = "campus-choice-parent">
 						</ul>
 					</div>
-					<input name = "campus" id = "campus" type="text" class="form-control final-form" disabled>
+					<input name = "campus" id = "campus" type="text" class="form-control final-form" disabled />
 				</div>
 			</div>
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Nom du bâtiment" name = "buildingName" id="bName" />
+			<div class = "uds-item">
+				<div class="input-group">
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Bâtiment <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu" id = "building-choice-parent">
+						</ul>
+					</div>
+					<input name = "buildingName" id = "buildingName" type="text" class="form-control final-form" />
+				</div>
+			</div>
+			<!--<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Nom du bâtiment" name = "buildingName" id="bName" />-->
 			<input class = "form-control uds-item final-form" type = "number" step = "any" value = "" placeholder = "Latitude" name = "lati" id = "lati"/>
 			<input class = "form-control uds-item final-form" type = "number" step = "any" value = "" placeholder = "Longitude" name = "longi" id = "longi"/>
 			</div>
