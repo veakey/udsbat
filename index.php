@@ -37,8 +37,8 @@
 				</div>
 			</div>
 			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Nom du bâtiment" name = "buildingName" id="bName" />
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Latitude" name = "lati" id = "lati"/>
-			<input class = "form-control uds-item final-form" type = "text" value = "" placeholder = "Longitude" name = "longi" id = "longi"/>
+			<input class = "form-control uds-item final-form" type = "number" step = "any" value = "" placeholder = "Latitude" name = "lati" id = "lati"/>
+			<input class = "form-control uds-item final-form" type = "number" step = "any" value = "" placeholder = "Longitude" name = "longi" id = "longi"/>
 			</div>
 			<!--<input class = "uds-textfield" type = "text" value = "" placeholder = "Altitude" name = "alti" id = "alti"/>
 Ne fonctionne pas pour le moment -->
