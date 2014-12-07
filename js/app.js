@@ -30,7 +30,7 @@ function updateLocation() {
     }
 }
 
-function transformImgToCanvas(){
+function transformImgToCanvas(img){
 	var canvas = document.getElementById('uds-canvas');
 
 	var MAX_WIDTH = 600;
@@ -121,7 +121,7 @@ $(document).ready(function(){
 		reader.readAsDataURL(file);
 
 		setTimeout(function(){
-			var formData = transformImgToCanvas();
+			var formData = transformImgToCanvas(img);
 			
 			$.ajax({
 			   url: "pages/bob.php",

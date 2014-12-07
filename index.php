@@ -22,7 +22,6 @@
 		
 		<form action="pages/bob.php" method="post" enctype="multipart/form-data" id="picUpdateForm">
 			<input type="file" name="file" accept = "image/*" id="file" style="visibility:hidden;position:absolute;top:0;left:0"/>
-			<!--<input id="picUpdateSubmit" type="submit" value="Envoyer" name="submit"/>-->
 		</form>
 		
 		
@@ -50,12 +49,11 @@ Ne fonctionne pas pour le moment -->
 				<img class = "btn btn-primary uds-locate" src = "img/locate.png" width = "56" onClick = "updateLocation();"/>
 				<input class = "btn btn-primary" type = "submit" value = "Je me rends utile !" id = "udsUpdate-submit" disabled/>
 			</div>
+			
 		</form>
-		<!-- Liste des bâtiments -->
 	</body>
 	<script src = "js/jquery-2.1.1.min.js"></script>
 	<script src = "js/bootstrap.min.js"></script>
-	<!--<script src = "js/jquery.form.min.js"></script>-->
 	<script src = "js/app.js"></script>
 	<script src = "js/load.anim.js"></script>
 </html>
