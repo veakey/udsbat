@@ -14,14 +14,17 @@
 	$result = $database->select(
 		'batiment',[
 			'[>]campus' => ['cle_campus' => 'ca_id'],
-			'[>]geoloc' => ['cle_geoloc' => 'ge_id']
+			'[>]pic' => ['cle_pic' => 'pi_id'],
+			'[>]horaire' => ['cle_horaire' => 'ho_id'],
+			'[<]geoloc' => ['ba_id' => 'cle_batiment']
 		],[
 			'batiment.ba_id',
-			'batiment.ba_img_url(pic)',
+			'pic.pi_name(pic)',
 			'batiment.ba_nom(name)',
 			'batiment.ba_description(desc)',
 			'geoloc.ge_lati(lat)',
-			'geoloc.ge_longi(lon)'
+			'geoloc.ge_longi(lon)',
+			'horaire.ho_id(horaire)'
 		],[
 			'AND' => [
 				'ba_nom_court' => $building_short,
@@ -31,13 +34,14 @@
 		]
 	);
 	
-	
-	//$result should be unique !
+	//$result should be unique at this point of node !
 	
 	
 	if (count($result) > 0){
 		$pic = $result[0]['pic'];
-		$result[0]['pic'] = 'http://'.$_SERVER['SERVER_NAME'].'/api/campus/'.$campus.'/'.$building_short.'/img/'. $pic;
+		//TODO refactor this output
+		$result[0]['pic'] = 'http://'.$_SERVER['SERVER_NAME'].'/api/img/'.$result[0]['pic'];
+		//campus/'.$campus.'/'.$building_short.'/img/'. $pic;
 	}
 	
 	

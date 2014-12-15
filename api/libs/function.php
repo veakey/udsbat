@@ -55,28 +55,29 @@
 		return find_word($url, $campus);
 	}
 	
-	function create_new_node($campus, $building){
+	function create_new_node($campus, $building, $pic_name){
 		//création du répertoire
 		$building = uds_trim($building);
 		$aux = '/campus/' . $campus . '/' . $building;
 		$root_path = get_api_path($aux);
 		$succeed0 = mkdir($root_path, 0777);
 		
-		$pic_path = $root_path . '/' . 'img';
-		$succeed1 = mkdir($pic_path, 0777);
+		/*$pic_path = $root_path . '/' . 'img';
+		$succeed1 = mkdir($pic_path, 0777);*/
 		
-		$succeed3 = copy(get_tmp_pic_path(), $pic_path . '/1.png');
+		$succeed3 = copy(get_tmp_pic_path(), $_SERVER['DOCUMENT_ROOT'].'/api/img/'.$pic_name);
 		
 		//création du fichier index.php
 		$succeed4 = copy(get_api_path('/libs/new_script.php'), $root_path . '/index.php');
 		
-		return $succeed0 && $succeed1 && $succeed3 && $succeed4;
+		return //$succeed0 && $succeed1 && 
+			$succeed0 && $succeed3 && $succeed4;
 	}
 	
 	
 	
-	function update_node($campus, $building){
-		$building = uds_trim($building);
+	function update_node($campus, $building, $new_pic_name){
+		/*$building = uds_trim($building);
 		$aux = '/campus/' . $campus . '/' . $building;
 		$root_path = get_api_path($aux);
 		$pic_path = $root_path . '/' . 'img';
@@ -95,10 +96,21 @@
 		
 		//pour avoir un incrément de plus que le max trouvé précédemment
 		$max++;
-		$next_img = $pic_path . '/' . $max . '.png';
+		$next_img = $pic_path . '/' . $max . '.png';*/
 		
-		$succeed0 = copy(get_tmp_pic_path(), $next_img);
+		$succeed0 = copy(get_tmp_pic_path(), $_SERVER['DOCUMENT_ROOT'].'/api/img/'.$new_pic_name);
 		
 		return $succeed0;
+	}
+	
+	function get_new_pi_id($database, $building_id){
+		$pic_count = $database->count(
+			'pic',[
+				'cle_batiment' => $building_id
+			]
+		);
+		
+		$toReturn = $pic_count + 1;
+		return $toReturn;
 	}
 ?>

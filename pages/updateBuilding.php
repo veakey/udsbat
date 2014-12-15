@@ -2,23 +2,25 @@
 	include($_SERVER['DOCUMENT_ROOT'].'/api/libs/base_config.php');
 	/*
 	 * 0) récupération campus, batiment
-	 * 1) création arborescence
-	 * 2) copier img/tmp.png vers new arbo 1.png -> n.png dans le cas où le bat existe déjà
-	 * 3) insert into bdd
+	 * 1) insert into bdd
+	 *  .) ip
 	 * 	a) geoloc
 	 * 	b) bati
+	 *  c) pic
+	 * 	  0) copier img/tmp.png vers new arbo 1.png -> n.png dans le cas où le bat existe déjà
+	 * 2) création/update arborescence
 	 */
 	
-	$building = $_POST['buildingName'];
+	//************************************ 0)
 	
-	
+	$building = $_GET['buildingName'];
 	
 	$short_buidling_name = uds_trim($building);
 	
 	$campus = $database->select(
 		'campus',
 		'*',[
-			'ca_nom[=]' => $_POST['campus']
+			'ca_nom[=]' => $_GET['campus']
 		]
 	);
 	
@@ -26,19 +28,52 @@
 	
 	$existing_building = $database->select(
 		'batiment',[
-			'[>]campus' => ['cle_campus' => 'ca_id'],
-			'[>]geoloc' => ['cle_geoloc' => 'ge_id']
+			'[>]campus' => ['cle_campus' => 'ca_id']
 		],[
 			'batiment.ba_id',
 			'batiment.ba_nom(name)'
 		],[
 			'AND' => [
 				'ba_nom_court' => $short_buidling_name,
-				'ca_nom_court' => $short_name,
-				'ge_actif' => 1
+				'ca_nom_court' => $short_name
 			]
 		]
 	);
+	
+	//************************************ 1)
+	
+	//*** .)
+	$existing_ip = $database->select(
+		'adress', [
+			'ad_id(id)',
+			'ad_client(client)',
+			'ad_forwarded(forwarded)',
+			'ad_remote(remote)'
+		],[
+			'AND' => [
+				'ad_client' => isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : null,
+				'ad_forwarded' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR']: null,
+				'ad_remote' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null
+			]
+		]
+	);
+	
+	$cle_ip = -1;
+	//Dans le cas où une address ip correspond
+	if (count($existing_ip) != 0){
+		$cle_ip = $existing_ip[0]['id'];
+	}else{
+		$cle_ip = $database->insert(
+			'adress', [
+				'ad_client' => isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : null,
+				'ad_forwarded' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR']: null,
+				'ad_remote' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null
+			]
+		);
+	}
+	
+	print $cle_ip;
+	print 'heu...';
 	
 	//var_dump($database->last_query());
 	//var_dump($campus);
@@ -57,35 +92,62 @@
 	if (!file_exists($root_path)){
 		//par défaut on active le premier insert pour la géoloc, c'est un système de confiance
 		//on verra bien comment les gens vont se comporter...
-		$last_geoloc_id = $database->insert(
-			'geoloc',[
-				'ge_lati' => $_POST['lati'],
-				'ge_longi' => $_POST['longi'],
-				'ge_actif' => 1
-			]
-		);
+		$pic_name = $short_buidling_name.'1.png';
 		
 		$last_building_id = $database->insert(
 			'batiment', [
 				'ba_nom' => $building,
 				'ba_nom_court' => $short_buidling_name,
-				'ba_img_url' => '1.png',
 				'ba_description' => '',
 				'cle_campus' => $campus[0]['ca_id'],
-				'cle_geoloc' => $last_geoloc_id
+				'cle_addr' => $cle_ip
 			]
 		);
 		
-		create_new_node($short_name, $building);
-	}else{
-		$last_geoloc_id = $database->insert(
-			'geoloc',[
-				'cle_batiment' => $existing_building[0]['ba_id'],
-				'ge_lati' => $_POST['lati'],
-				'ge_longi' => $_POST['longi']
+		$last_pic_id = $database->insert(
+			'pic', [
+				'pi_name' => $pic_name,
+				'cle_addr' => $cle_ip,
+				'cle_batiment' => $last_building_id
 			]
 		);
-		update_node($short_name, $building);
+		
+		$last_geoloc_id = $database->insert(
+			'geoloc',[
+				'ge_lati' => $_GET['lati'],
+				'ge_longi' => $_GET['longi'],
+				'ge_actif' => 1,
+				'cle_batiment' => $last_building_id,
+				'cle_addr' => $cle_ip,
+			]
+		);
+		
+		create_new_node($short_name, $building, $pic_name);
+	}else{
+		$building_id = $existing_building[0]['ba_id'];
+		
+		$new_index = get_new_pi_id($database, $building_id);
+		$new_pic_name = $short_buidling_name . $new_index . '.png';
+		
+		print $new_index . 'polo#';
+		
+		$last_pic_id = $database->insert(
+			'pic', [
+				'pi_name' => $new_pic_name,
+				'cle_addr' => $cle_ip,
+				'cle_batiment' => $building_id
+			]
+		);
+		
+		$last_geoloc_id = $database->insert(
+			'geoloc',[
+				'ge_lati' => $_GET['lati'],
+				'ge_longi' => $_GET['longi'],
+				'cle_batiment' => $building_id,
+				'cle_addr' => $cle_ip
+			]
+		);
+		update_node($short_name, $building, $new_pic_name);
 	}
 	
 	$toReturn = [];

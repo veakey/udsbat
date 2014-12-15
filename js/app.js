@@ -205,13 +205,12 @@ $(document).ready(function(){
 				toggleAction();
 				$('#udsUpdate-submit').prop('disabled', true);
 				window.location.replace('liste.html');
-				//mettre à jour les couleurs des champs
 			},
 			error: function(xhr, status, error) { 
 				toggleAction();
 				console.error(xhr);
-				console.error('Status: ' + status);
-				console.error('Error: ' + error);
+				console.error(status);
+				console.error(error);
 			}
 		});
 	});

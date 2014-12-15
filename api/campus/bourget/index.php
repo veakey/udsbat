@@ -9,7 +9,6 @@
 			'[>]campus' => ['cle_campus' => 'ca_id']
 		],[
 			'batiment.ba_id',
-			'batiment.ba_img_url(pic)',
 			'batiment.ba_nom(name)',
 			'batiment.ba_nom_court(short)',
 			'batiment.ba_description(desc)',
