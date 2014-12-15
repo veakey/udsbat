@@ -14,11 +14,11 @@
 	$result = $database->select(
 		'batiment',[
 			'[>]campus' => ['cle_campus' => 'ca_id'],
-			'[>]pic' => ['cle_pic' => 'pi_id'],
 			'[>]horaire' => ['cle_horaire' => 'ho_id'],
-			'[<]geoloc' => ['ba_id' => 'cle_batiment']
+			'[<]geoloc' => ['ba_id' => 'cle_batiment'],
+			'[<]pic' => ['ba_id' => 'cle_batiment']
 		],[
-			'batiment.ba_id',
+			'batiment.ba_id(id)',
 			'pic.pi_name(pic)',
 			'batiment.ba_nom(name)',
 			'batiment.ba_description(desc)',
@@ -29,7 +29,8 @@
 			'AND' => [
 				'ba_nom_court' => $building_short,
 				'ca_nom_court' => $campus,
-				'ge_actif' => 1
+				'ge_actif' => 1,
+				'pi_actif' => 1
 			]
 		]
 	);
@@ -41,7 +42,6 @@
 		$pic = $result[0]['pic'];
 		//TODO refactor this output
 		$result[0]['pic'] = 'http://'.$_SERVER['SERVER_NAME'].'/api/img/'.$result[0]['pic'];
-		//campus/'.$campus.'/'.$building_short.'/img/'. $pic;
 	}
 	
 	

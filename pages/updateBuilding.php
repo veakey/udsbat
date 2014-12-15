@@ -72,9 +72,6 @@
 		);
 	}
 	
-	print $cle_ip;
-	print 'heu...';
-	
 	//var_dump($database->last_query());
 	//var_dump($campus);
 	//var_dump($existing_building);
@@ -109,6 +106,7 @@
 				'pi_name' => $pic_name,
 				'cle_addr' => $cle_ip,
 				'cle_batiment' => $last_building_id
+				'pi_actif' => 1
 			]
 		);
 		
@@ -135,7 +133,8 @@
 			'pic', [
 				'pi_name' => $new_pic_name,
 				'cle_addr' => $cle_ip,
-				'cle_batiment' => $building_id
+				'cle_batiment' => $building_id,
+				'pi_actif' => 0
 			]
 		);
 		
