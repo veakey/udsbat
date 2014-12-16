@@ -13,14 +13,14 @@
 	
 	//************************************ 0)
 	
-	$building = $_GET['buildingName'];
+	$building = $_POST['buildingName'];
 	
 	$short_buidling_name = uds_trim($building);
 	
 	$campus = $database->select(
 		'campus',
 		'*',[
-			'ca_nom[=]' => $_GET['campus']
+			'ca_nom[=]' => $_POST['campus']
 		]
 	);
 	
@@ -105,15 +105,15 @@
 			'pic', [
 				'pi_name' => $pic_name,
 				'cle_addr' => $cle_ip,
-				'cle_batiment' => $last_building_id
+				'cle_batiment' => $last_building_id,
 				'pi_actif' => 1
 			]
 		);
 		
 		$last_geoloc_id = $database->insert(
 			'geoloc',[
-				'ge_lati' => $_GET['lati'],
-				'ge_longi' => $_GET['longi'],
+				'ge_lati' => $_POST['lati'],
+				'ge_longi' => $_POST['longi'],
 				'ge_actif' => 1,
 				'cle_batiment' => $last_building_id,
 				'cle_addr' => $cle_ip,
@@ -127,21 +127,20 @@
 		$new_index = get_new_pi_id($database, $building_id);
 		$new_pic_name = $short_buidling_name . $new_index . '.png';
 		
-		print $new_index . 'polo#';
-		
 		$last_pic_id = $database->insert(
 			'pic', [
 				'pi_name' => $new_pic_name,
 				'cle_addr' => $cle_ip,
-				'cle_batiment' => $building_id,
-				'pi_actif' => 0
+				'cle_batiment' => $building_id
 			]
 		);
 		
+		//'pi_actif' should be 0 by default according to mysql
+		
 		$last_geoloc_id = $database->insert(
 			'geoloc',[
-				'ge_lati' => $_GET['lati'],
-				'ge_longi' => $_GET['longi'],
+				'ge_lati' => $_POST['lati'],
+				'ge_longi' => $_POST['longi'],
 				'cle_batiment' => $building_id,
 				'cle_addr' => $cle_ip
 			]
