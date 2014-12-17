@@ -1,48 +1,10 @@
-//This code is jQuery's
-function addClsToEl(elem,value){
-	var rspaces = /\s+/;
-	var classNames = (value || "").split( rspaces );
-	var className = " " + elem.className + " ",
-	setClass = elem.className;
-	for ( var c = 0, cl = classNames.length; c < cl; c++ ) {
-		if ( className.indexOf( " " + classNames[c] + " " ) < 0 ) {
-			setClass += " " + classNames[c];
-		}
-	}
-	elem.className = setClass.replace(/^\s+|\s+$/g,'');//trim
-}
-
-function removeClsToEl(elem,value){
-	var rspaces = /\s+/;
-	var rclass = /[\n\t]/g
-	var classNames = (value || "").split( rspaces );
-	var className = (" " + elem.className + " ").replace(rclass, " ");
-	for ( var c = 0, cl = classNames.length; c < cl; c++ ) {
-		className = className.replace(" " + classNames[c] + " ", " ");
-	}
-	elem.className = className.replace(/^\s+|\s+$/g,'');//trim
-}
-
 function showObj(obj, pos){
-	var indexesToDeActivate = null;
-	
-	switch(pos){
-		case 0:
-			indexesToDeActivate = [2, 4];
-		break;
-		case 1:
-			indexesToDeActivate = [0, 4];
-		break;
-		default:
-			indexesToDeActivate = [0, 2];
-		break;
-	}
 	
 	var parent = obj.parentNode;
-	addClsToEl(obj, 'active');
-	
-	removeClsToEl(parent.childNodes[indexesToDeActivate[0]], 'active');
-	removeClsToEl(parent.childNodes[indexesToDeActivate[1]], 'active');
+	$(parent).children().each(function(){
+		$(this).removeClass('active');
+	});
+	$(obj).addClass('active');
 	
 	var grtParent = parent.parentNode;
 	var grtPaChildren = grtParent.childNodes;
@@ -50,7 +12,7 @@ function showObj(obj, pos){
 	
 	for (i = 0, len = grtPaChildren.length; i < len ; ++i){
 		var aux = grtPaChildren[i];
-		if (aux.classList.contains('caption')){
+		if ($(aux).hasClass('caption')){
 			captionDiv = aux;
 			break;
 		}
@@ -81,13 +43,13 @@ function showCampus(obj, index){
 	
 	console.debug(parent);
 	
-	var $all = $(parent.parentNode).find('.list-group-item');
+	var $all = $(parent).find('.list-group-item');
 	
 	$all.each(function(){
 		$(this).removeClass('active');
 	});
 	
-	addClsToEl(obj, 'active');
+	$(obj).addClass('active');
 	
 	switch(index){
 		case 0:
@@ -108,24 +70,41 @@ function showCampus(obj, index){
 	}
 }
 
+function checkDesc(obj){
+	
+	console.debug($(obj));
+	if ($(obj).text().size() !== 0){
+		$(obj).parent().find('.udsDesc-submit').each(function(){
+			$(this).removeAttr('disabled');
+		});
+	}else{
+		$(this).prop('disabled');
+	}
+}
+
 function writeBuildingDetail(aux, campus){
 	
 	var node = aux.short;
 	
 	$.getJSON('http://udsbat.valentinkim.org/api/campus/' + campus + '/' + node,function(result){
 		
-		//console.error('here##');
-		console.debug(result);
-		
 		var mNodeData = result.data[0];
 		
 		var 
 			imgUrl = mNodeData.pic,
 			name = mNodeData.name,
-			desc = mNodeData.desc,
+			desc = mNodeData.desc === '' ? 'Pas de description pour le moment' : mNodeData.desc,
 			lat = mNodeData.lat,
 			lon = mNodeData.lon,
-			horaire = mNodeData.horaire;
+			horaire = mNodeData.horaire === null ? 'Pas d\'horaire pour le moment' : mNodeData.horaire;
+		
+		/*var realDesc = desc === '' ?
+			'<div>' +
+				'<input type="text" class="form-control" placeholder="Informations utiles à propos du bâtiment">' +
+				'<input class = "btn btn-primary udsDesc-submit" type = "submit" value = "Je me rends utile !" disabled/>' +
+			'</div>'
+				: 
+			desc;*/
 		
 		var toAppend = 
 		'<div class="row">' +
@@ -195,4 +174,8 @@ function writeBuildingList(){
 
 $(document).ready(function(){
 	writeBuildingList();
+	
+	$('input[type=text]').change(function(){
+		console.debug($(this));
+	});
 });
